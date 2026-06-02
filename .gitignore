@@ -1,0 +1,15 @@
+venv/
+__pycache__/
+*.pyc
+*.pkl
+*.nc
+*.grib
+*.grib.idx
+.env
+.cdsapirc
+node_modules/
+frontend/dist/
+frontend/.env
+*.DS_Store
+data/raw/*.nc
+data/raw/*.grib
