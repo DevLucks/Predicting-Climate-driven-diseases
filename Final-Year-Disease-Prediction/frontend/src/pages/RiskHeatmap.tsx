@@ -209,7 +209,7 @@ export default function RiskHeatmap() {
       exit={{ opacity: 0, x: -20 }}
       transition={{ duration: 0.35 }}
     >
-      <div className="section-label">Temporal Analysis</div>
+      <p className="page-eyebrow">Temporal Analysis</p>
       <h1 className="page-title">Risk Heatmap</h1>
       <p className="page-subtitle">
         Monthly outbreak risk classification · 2010–2025 · {totalHigh} high-risk months identified
@@ -220,7 +220,7 @@ export default function RiskHeatmap() {
       {/* Heatmap grid */}
       <div className="card mt-5">
         <div className="flex justify-between items-center mb-4" style={{ flexWrap: 'wrap', gap: 'var(--s3)' }}>
-          <div className="section-label" style={{ marginBottom: 0 }}>Month × Year Grid</div>
+          <h2 className="section-label" style={{ marginBottom: 0 }}>Month × Year Grid</h2>
           <div className="flex gap-4" style={{ fontSize: 'var(--text-xs)' }}>
             <span style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
               <span style={{ width: 12, height: 12, background: 'var(--red)', borderRadius: 2, display: 'inline-block' }} />
@@ -252,7 +252,7 @@ export default function RiskHeatmap() {
 
       {/* State risk table */}
       <div className="mt-5">
-        <div className="section-label mb-4">State-Level Risk Breakdown</div>
+        <h2 className="section-label mb-4">State-Level Risk Breakdown</h2>
         <div className="card" style={{ padding: 0, overflow: 'hidden' }}>
           <StateRiskTable />
         </div>

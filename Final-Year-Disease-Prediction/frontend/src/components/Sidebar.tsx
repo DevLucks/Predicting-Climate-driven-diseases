@@ -122,15 +122,20 @@ function DesktopSidebar() {
         {NAV.map(({ to, label, icon }) => {
           const active = to === '/' ? location.pathname === '/' : location.pathname.startsWith(to);
           return (
-            <NavLink key={to} to={to} style={{
-              display: 'flex', alignItems: 'center', gap: 14,
-              padding: '11px 0 11px 22px', textDecoration: 'none',
-              color: active ? 'var(--teal)' : 'var(--text-dim)',
-              background: active ? 'var(--teal-dim)' : 'transparent',
-              borderRight: active ? '2px solid var(--teal)' : '2px solid transparent',
-              transition: 'color 0.2s, background 0.2s',
-            }}>
-              <span style={{ flexShrink: 0, display: 'flex' }}>{icon}</span>
+            <NavLink key={to} to={to}
+              aria-current={active ? 'page' : undefined}
+              style={{
+                display: 'flex', alignItems: 'center', gap: 14,
+                padding: '11px 0 11px 22px', textDecoration: 'none',
+                cursor: 'pointer',
+                color: active ? 'var(--teal)' : 'var(--text-dim)',
+                background: active ? 'var(--teal-dim)' : 'transparent',
+                borderRight: active ? '2px solid var(--teal)' : '2px solid transparent',
+                transition: 'color 0.2s, background 0.2s',
+              }}
+            >
+              {/* title provides tooltip when sidebar is collapsed (icon-only state) */}
+              <span style={{ flexShrink: 0, display: 'flex' }} title={!expanded ? label : undefined}>{icon}</span>
               <AnimatePresence>
                 {expanded && (
                   <motion.span initial={{ opacity: 0, x: -8 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -8 }} transition={{ duration: 0.12 }}

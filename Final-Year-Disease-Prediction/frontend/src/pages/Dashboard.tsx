@@ -60,12 +60,14 @@ export default function Dashboard() {
       initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
       transition={{ duration: 0.35 }}
     >
-      {offline && <div className="offline-badge">OFFLINE MODE</div>}
+      {offline && (
+        <div className="offline-badge" role="status" aria-live="polite">OFFLINE MODE</div>
+      )}
 
       {/* Header */}
       <motion.div variants={STAGGER} initial="hidden" animate="show">
         <motion.div variants={ITEM}>
-          <div className="section-label">Nigeria Disease Intelligence</div>
+          <p className="page-eyebrow">Nigeria Disease Intelligence</p>
           <h1 className="page-title">Climate Risk<br />Early Warning</h1>
           <p className="page-subtitle">Real-time outbreak risk · {MONTH_NAMES[month-1]} {new Date().getFullYear()} · Cholera + Lassa Fever</p>
         </motion.div>
@@ -84,7 +86,7 @@ export default function Dashboard() {
           style={{ padding: 0, overflow: 'hidden', position: 'relative' }}
         >
           <div style={{ position: 'absolute', top: 'var(--s4)', left: 'var(--s4)', zIndex: 10 }}>
-            <div className="section-label" style={{ marginBottom: 4 }}>Live Surveillance</div>
+            <h2 className="section-label" style={{ marginBottom: 4 }}>Live Surveillance</h2>
             <div style={{ fontSize: 'var(--text-xs)', color: 'var(--text-dim)', letterSpacing: '0.08em' }}>
               Pulsing = high-burden states
             </div>
@@ -95,12 +97,18 @@ export default function Dashboard() {
         {/* Right column */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--s4)' }}>
           {/* Risk prediction badge */}
-          <motion.div className="card" variants={ITEM} initial="hidden" animate="show" style={{ borderColor: isHigh ? 'var(--red)' : 'var(--green)' }}>
-            <div className="card-label">Current Month Risk</div>
+          <motion.div
+            className="card"
+            variants={ITEM} initial="hidden" animate="show"
+            style={{ borderColor: isHigh ? 'var(--red)' : 'var(--green)' }}
+            aria-live="polite"
+            aria-atomic="true"
+          >
+            <h2 className="card-label">Current Month Risk</h2>
             {prediction ? (
               <>
                 <div className={`risk-badge ${isHigh ? 'high' : 'low'}`} style={{ marginBottom: 'var(--s3)' }}>
-                  <span className="dot" />
+                  <span className="dot" aria-hidden="true" />
                   {prediction.risk} RISK
                 </div>
                 <div style={{ fontFamily: 'var(--font-display)', fontSize: 'var(--text-3xl)', fontWeight: 800, color: isHigh ? 'var(--red)' : 'var(--green)' }}>
@@ -125,8 +133,8 @@ export default function Dashboard() {
                 { label: 'Wind Speed', value: `${weather.wind_speed.toFixed(1)} m/s`, sub: weather.source, color: 'var(--teal)' },
               ].map(({ label, value, sub, color }) => (
                 <motion.div key={label} variants={ITEM} className="card" style={{ padding: 'var(--s3) var(--s4)' }}>
-                  <div className="card-label">{label}</div>
-                  <div style={{ fontFamily: 'var(--font-display)', fontSize: 'var(--text-xl)', fontWeight: 700, color }}>{value}</div>
+                  <h3 className="card-label">{label}</h3>
+                  <div style={{ fontFamily: 'var(--font-display)', fontSize: 'var(--text-xl)', fontWeight: 700, color, fontVariantNumeric: 'tabular-nums' }}>{value}</div>
                   <div className="card-sub">{sub}</div>
                 </motion.div>
               ))}
@@ -151,7 +159,7 @@ export default function Dashboard() {
           { label: 'Models Compared', value: '5',    sub: 'LR · NN · XGB · RF · Ensemble', color: 'var(--text-primary)' },
         ].map(({ label, value, sub, color }) => (
           <motion.div key={label} variants={ITEM} className="card">
-            <div className="card-label">{label}</div>
+            <h3 className="card-label">{label}</h3>
             <div className="card-value" style={{ color }}>{value}</div>
             <div className="card-sub">{sub}</div>
           </motion.div>

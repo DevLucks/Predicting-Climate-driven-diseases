@@ -83,9 +83,9 @@ export default function ModelResults() {
       initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }}
       transition={{ duration: 0.35 }}
     >
-      {offline && <div className="offline-badge">OFFLINE MODE</div>}
+      {offline && <div className="offline-badge" role="status">OFFLINE MODE</div>}
 
-      <div className="section-label">Performance Analysis</div>
+      <p className="page-eyebrow">Performance Analysis</p>
       <h1 className="page-title">Model Results</h1>
       <p className="page-subtitle">5-fold stratified cross-validation · Nigeria Cholera 2010–2025 · 190 observations</p>
 
@@ -94,7 +94,7 @@ export default function ModelResults() {
       {/* Model comparison chart */}
       <div className="grid-2 mt-5" style={{ gap: 'var(--s5)', alignItems: 'start' }}>
         <div>
-          <div className="section-label mb-4">Model Comparison</div>
+          <h2 className="section-label mb-4">Model Comparison</h2>
           <div className="tabs">
             {(Object.keys(TAB_LABELS) as Tab[]).map(t => (
               <button key={t} className={`tab-btn ${tab === t ? 'active' : ''}`} onClick={() => setTab(t)}>
@@ -105,7 +105,13 @@ export default function ModelResults() {
           <div ref={chartRef}>
             {loading ? <ChartSkel height="260px" /> : (
               <ResponsiveContainer width="100%" height={260}>
-                <BarChart data={chartData} layout="vertical" margin={{ left: 80, right: 20, top: 4, bottom: 4 }}>
+                <BarChart
+                  data={chartData}
+                  layout="vertical"
+                  margin={{ left: 80, right: 20, top: 4, bottom: 4 }}
+                  role="img"
+                  aria-label={`Bar chart comparing ${TAB_LABELS[tab]} across 5 ML models. Best: ${chartData.reduce((a, b) => a.value > b.value ? a : b).name} at ${chartData.reduce((a, b) => a.value > b.value ? a : b).value.toFixed(2)}%.`}
+                >
                   <CartesianGrid strokeDasharray="3 3" horizontal={false} />
                   <XAxis type="number" domain={[0, 110]} tickFormatter={v => `${v}%`} tick={{ fontSize: 10 }} />
                   <YAxis type="category" dataKey="name" tick={{ fontSize: 10, fontFamily: 'IBM Plex Mono' }} width={80} />
@@ -120,7 +126,7 @@ export default function ModelResults() {
 
           {/* Recall highlight */}
           <div className="card mt-4" style={{ padding: 'var(--s3) var(--s4)' }}>
-            <div className="card-label">Why Recall Matters</div>
+            <h3 className="card-label">Why Recall Matters</h3>
             <div style={{ fontSize: 'var(--text-xs)', color: 'var(--text-secondary)', lineHeight: 1.7 }}>
               Logistic Regression achieves <span className="text-gold bold">100% recall</span> — it never misses a real outbreak.
               In public health, a false negative (missed outbreak) is far more costly than a false alarm.
@@ -131,7 +137,7 @@ export default function ModelResults() {
 
         {/* Confusion matrix */}
         <div>
-          <div className="section-label mb-4">Confusion Matrix</div>
+          <h2 className="section-label mb-4">Confusion Matrix</h2>
           <div style={{ fontSize: 'var(--text-xs)', color: 'var(--text-dim)', marginBottom: 'var(--s3)' }}>
             Logistic Regression · Test set (n=38)
           </div>
@@ -143,18 +149,18 @@ export default function ModelResults() {
               <div className="cm-cell header">Pred: HIGH</div>
               {/* Row 1 */}
               <div className="cm-cell header">Actual: LOW</div>
-              <motion.div className="cm-cell tn" initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.1 }}>
+              <motion.div className="cm-cell tn" title="True Negative: model predicted LOW risk, actual was LOW risk" initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.1 }}>
                 <span className="cm-num">108</span><span className="cm-lbl">TN</span>
               </motion.div>
-              <motion.div className="cm-cell fp" initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.2 }}>
+              <motion.div className="cm-cell fp" title="False Positive: model predicted HIGH risk, actual was LOW risk (false alarm)" initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.2 }}>
                 <span className="cm-num">34</span><span className="cm-lbl">FP</span>
               </motion.div>
               {/* Row 2 */}
               <div className="cm-cell header">Actual: HIGH</div>
-              <motion.div className="cm-cell fn" initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.3 }}>
+              <motion.div className="cm-cell fn" title="False Negative: model predicted LOW risk, actual was HIGH risk (missed outbreak) — 0 means perfect recall" initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.3 }}>
                 <span className="cm-num" style={{ color: 'var(--green)' }}>0</span><span className="cm-lbl">FN</span>
               </motion.div>
-              <motion.div className="cm-cell tp" initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.4 }}>
+              <motion.div className="cm-cell tp" title="True Positive: model predicted HIGH risk, actual was HIGH risk (correct outbreak detection)" initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.4 }}>
                 <span className="cm-num">48</span><span className="cm-lbl">TP</span>
               </motion.div>
             </div>
@@ -177,7 +183,7 @@ export default function ModelResults() {
 
       {/* Feature importance */}
       <div className="mt-6">
-        <div className="section-label mb-4">Feature Importance</div>
+        <h2 className="section-label mb-4">Feature Importance</h2>
         <div className="card">
           <div style={{ fontSize: 'var(--text-xs)', color: 'var(--text-dim)', marginBottom: 'var(--s4)' }}>
             Random Forest · relative importance across all 10 input features

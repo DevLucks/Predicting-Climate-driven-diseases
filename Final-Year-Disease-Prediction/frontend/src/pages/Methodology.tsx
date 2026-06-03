@@ -107,7 +107,7 @@ export default function Methodology() {
       initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }}
       transition={{ duration: 0.35 }}
     >
-      <div className="section-label">Research Framework</div>
+      <p className="page-eyebrow">Research Framework</p>
       <h1 className="page-title">Methodology</h1>
       <p className="page-subtitle">
         "Predicting Climate-Driven Disease Outbreak Risk in Nigeria Using a<br />
@@ -118,7 +118,7 @@ export default function Methodology() {
 
       {/* Pipeline */}
       <div className="mt-5">
-        <div className="section-label mb-4">Processing Pipeline</div>
+        <h2 className="section-label mb-4">Processing Pipeline</h2>
         <div className="card" style={{ overflowX: 'auto' }}>
           <div className="pipeline">
             {PIPELINE.map((step, i) => (
@@ -143,7 +143,7 @@ export default function Methodology() {
 
       {/* Neural network architecture */}
       <div className="mt-5">
-        <div className="section-label mb-4">Multi-Input Neural Network Architecture</div>
+        <h2 className="section-label mb-4">Multi-Input Neural Network Architecture</h2>
         <div className="card" style={{ overflowX: 'auto' }}>
           <NNDiagram />
         </div>
@@ -151,7 +151,7 @@ export default function Methodology() {
 
       {/* Weather trends chart */}
       <div className="mt-5">
-        <div className="section-label mb-4">ERA5 Weather Trends 2010–2025</div>
+        <h2 className="section-label mb-4">ERA5 Weather Trends 2010–2025</h2>
         <div className="card" ref={chartRef}>
           {loading ? <ChartSkel height="240px" /> : chartData.length === 0 ? (
             <div style={{ height: 240, display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--text-dim)', fontSize: 'var(--text-sm)' }}>
@@ -177,7 +177,7 @@ export default function Methodology() {
       {/* Cross-validation */}
       <div className="mt-5 grid-2" style={{ gap: 'var(--s5)', alignItems: 'start' }}>
         <div className="card">
-          <div className="section-label mb-4">Evaluation Strategy</div>
+          <h2 className="section-label mb-4">Evaluation Strategy</h2>
           <div style={{ fontSize: 'var(--text-sm)', color: 'var(--text-secondary)', lineHeight: 1.8 }}>
             <p><span className="text-teal bold">5-fold Stratified Cross-Validation</span> ensures every fold contains the same proportion of HIGH/LOW risk samples as the full dataset. This is critical with imbalanced classes.</p>
             <div className="divider" />
@@ -199,7 +199,7 @@ export default function Methodology() {
 
         {/* Data sources */}
         <div>
-          <div className="section-label mb-4">Data Sources</div>
+          <h2 className="section-label mb-4">Data Sources</h2>
           <div className="card" style={{ padding: 0, overflow: 'hidden' }}>
             <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 'var(--text-xs)' }}>
               <thead>
