@@ -7,8 +7,10 @@ __pycache__/
 .env
 .cdsapirc
 
-# Data & model binaries (too large for git)
+# Model binaries — only the two files Render needs are tracked
 outputs/*.pkl
+!outputs/cholera_ensemble_model.pkl
+!outputs/cholera_scaler.pkl
 data/raw/
 
 # Node
