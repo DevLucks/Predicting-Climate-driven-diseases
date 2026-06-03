@@ -2,7 +2,7 @@ import { useEffect, useState, useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
 import {
   BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell,
-  CartesianGrid, Legend,
+  CartesianGrid,
 } from 'recharts';
 import {
   fetchModelResults, fetchFeatureImportance,

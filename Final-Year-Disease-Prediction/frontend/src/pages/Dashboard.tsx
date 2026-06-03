@@ -77,11 +77,10 @@ export default function Dashboard() {
       <div className="hero-grid mt-5">
         {/* Globe */}
         <motion.div
-          className="card"
+          className="card globe-container"
           initial={{ opacity: 0, scale: 0.96 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="globe-container"
           style={{ padding: 0, overflow: 'hidden', position: 'relative' }}
         >
           <div style={{ position: 'absolute', top: 'var(--s4)', left: 'var(--s4)', zIndex: 10 }}>

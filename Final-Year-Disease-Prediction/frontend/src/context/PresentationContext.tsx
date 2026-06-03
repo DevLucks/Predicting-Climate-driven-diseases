@@ -12,7 +12,7 @@ const Ctx = createContext<PresentationCtx>({ isPresentation: false, toggle: () =
 
 export function PresentationProvider({ children }: { children: ReactNode }) {
   const [isPresentation, setIsPresentation] = useState(false);
-  const [pageIdx, setPageIdx] = useState(0);
+  const [_pageIdx, setPageIdx] = useState(0);
   const navigate = useNavigate();
 
   const toggle = useCallback(() => setIsPresentation(p => !p), []);

@@ -196,8 +196,8 @@ function StateRiskTable() {
 
 /* ── Page ──────────────────────────────────────────────────────────────── */
 export default function RiskHeatmap() {
-  const totalHigh = YEARS.reduce(
-    (acc, y) => acc + Array.from({ length: 12 }, (_, m) => isHigh(y, m + 1) ? 1 : 0).reduce((a, b) => a + b, 0),
+  const totalHigh = YEARS.reduce<number>(
+    (acc, y) => acc + Array.from({ length: 12 }, (_, m) => isHigh(y, m + 1) ? 1 : 0).reduce<number>((a, b) => a + b, 0),
     0,
   );
 
