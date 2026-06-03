@@ -38,7 +38,7 @@ const CustomTooltip = ({ active, payload, label }: { active?: boolean; payload?:
 
 function NNDiagram() {
   return (
-    <div style={{ display: 'flex', gap: 'var(--s4)', flexWrap: 'wrap', fontSize: 'var(--text-xs)' }}>
+    <div style={{ display: 'flex', gap: 'var(--s4)', flexWrap: 'nowrap', fontSize: 'var(--text-xs)', minWidth: 520 }}>
       {/* Branch 1 */}
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4 }}>
         <div style={{ fontSize: 'var(--text-xs)', color: 'var(--teal)', letterSpacing: '0.1em', marginBottom: 4 }}>BRANCH 1 — Weather</div>

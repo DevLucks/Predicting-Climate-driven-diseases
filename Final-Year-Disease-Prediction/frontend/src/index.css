@@ -191,31 +191,113 @@ body::before {
   padding: var(--s3) var(--s4);
   flex: 1 1 130px;
 }
+/* Risk card — wider fixed base, overridden to full-width on mobile */
+.map-overlay-card-risk { flex: 0 0 auto; min-width: 170px; }
+
+/* Gauge + confidence row in LivePredictor */
+.gauge-output-row { display: flex; align-items: center; gap: var(--s6); flex-wrap: wrap; }
 
 /* ─── Breakpoints ───────────────────────────────────────────────────────── */
 
-/* Small mobile (375px — iPhone SE) */
+/* Small mobile (≤ 390px — iPhone SE / mini) */
 @media (max-width: 390px) {
   .page { padding: var(--s3); padding-bottom: 76px; }
   .grid-4 { grid-template-columns: 1fr 1fr; }
+  .globe-container { height: 260px; }
+  /* Full-width cards on very small screens */
+  .map-overlay-card,
+  .map-overlay-card-risk { flex: 0 0 100%; min-width: 0; }
 }
 
 /* Mobile (< 768px) */
 @media (max-width: 767px) {
+  /* ── Page shell ── */
   .page { padding: var(--s4); padding-bottom: 76px; }
   [data-presentation='true'] .page { padding-bottom: var(--s6); }
+  .presentation-btn { display: none; }
+  .presentation-watermark { font-size: 10px; bottom: 80px; }
 
+  /* ── Grids ── */
   .hero-grid      { grid-template-columns: 1fr; }
   .predictor-grid { grid-template-columns: 1fr; }
   .grid-2         { grid-template-columns: 1fr; }
   .grid-3         { grid-template-columns: 1fr; }
   .grid-4         { grid-template-columns: repeat(2, 1fr); }
-  .globe-container { height: 380px; }
-  .map-overlay-strip { padding: var(--s6) var(--s3) var(--s3); gap: var(--s2); }
-  .map-overlay-card { padding: var(--s2) var(--s3); flex: 1 1 100px; }
-  .page-title { font-size: var(--text-2xl); }
-  .presentation-btn { display: none; }
-  .presentation-watermark { font-size: 10px; bottom: 80px; }
+
+  /* ── Typography ── */
+  .page-title    { font-size: var(--text-2xl); }
+  .page-subtitle { font-size: var(--text-xs); }
+
+  /* ── Cards ── */
+  .card { padding: var(--s4); }
+  .divider { margin: var(--s3) 0; }
+
+  /* ── Map: overlay pulled below map into normal flow ── */
+  .globe-container { height: 300px; }
+  .map-overlay-strip {
+    position: static;
+    background: transparent;
+    padding: var(--s3) 0 0;
+    gap: var(--s2);
+    flex-wrap: wrap;
+    align-items: stretch;
+  }
+  .map-overlay-card {
+    flex: 1 1 calc(50% - var(--s1));
+    min-width: 0;
+    padding: var(--s2) var(--s3);
+  }
+  /* Risk card: full-width on mobile so it gets its own row */
+  .map-overlay-card-risk { flex: 0 0 100%; min-width: 0; }
+
+  /* ── Offline badge: right:160px avoids PRESENT btn (hidden on mobile) ── */
+  .offline-badge { right: var(--s4); top: var(--s3); }
+
+  /* ── Tabs: compact text to prevent overflow ── */
+  .tab-btn {
+    font-size: var(--text-xs);
+    padding: var(--s2) var(--s3);
+    letter-spacing: 0.04em;
+  }
+
+  /* ── Pipeline: vertical list on mobile ── */
+  .pipeline {
+    flex-direction: column;
+    align-items: stretch;
+    overflow-x: visible;
+    gap: 4px;
+    padding: 0;
+  }
+  .pipeline-arrow { display: none; }
+  .pipeline-step {
+    min-width: unset;
+    text-align: left;
+    border-left: 2px solid var(--teal);
+    border-right: none;
+    border-radius: 0 2px 2px 0;
+    padding-left: var(--s4);
+  }
+
+  /* ── LivePredictor gauge row: stack + centre on narrow screens ── */
+  .gauge-output-row {
+    flex-direction: column;
+    align-items: center;
+    gap: var(--s4);
+    text-align: center;
+  }
+  .gauge-output-row > div { display: flex; flex-direction: column; align-items: center; }
+  .gauge-output-row dl    { text-align: left; width: 100%; max-width: 220px; }
+
+  /* ── Leaflet legend: compact ── */
+  .choro-legend { min-width: 150px; padding: 8px 10px; }
+
+  /* ── Feature importance bars ── */
+  .feature-bar-label { width: 110px; }
+  .feature-bar-row   { gap: var(--s2); }
+
+  /* ── Confusion matrix ── */
+  .cm-cell         { width: 72px; height: 64px; }
+  .cm-cell .cm-num { font-size: var(--text-xl); }
 }
 
 /* Tablet (768px – 1024px) */
@@ -616,12 +698,6 @@ input[type='range']:focus-visible::-webkit-slider-thumb {
   font-variant-numeric: tabular-nums;
 }
 
-@media (max-width: 767px) {
-  .feature-bar-label { width: 110px; }
-  .feature-bar-row { gap: var(--s2); }
-  .cm-cell { width: 72px; height: 64px; }
-  .cm-cell .cm-num { font-size: var(--text-xl); }
-}
 
 /* ─── Utilities ─────────────────────────────────────────────────────────── */
 /* tabular-nums on data displays prevents jitter as values update */

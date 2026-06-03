@@ -183,7 +183,7 @@ export default function LivePredictor() {
               </div>
             )}
 
-            <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--s6)', flexWrap: 'wrap' }}>
+            <div className="gauge-output-row">
               <motion.div
                 key={prediction.confidence}
                 initial={{ scale: 0.95 }} animate={{ scale: 1 }}

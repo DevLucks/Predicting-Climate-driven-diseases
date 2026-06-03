@@ -92,8 +92,8 @@ export default function Dashboard() {
           {/* Risk badge */}
           {prediction ? (
             <div
-              className="map-overlay-card"
-              style={{ borderColor: isHigh ? 'var(--red)' : 'var(--green)', flex: '0 0 auto', minWidth: 170 }}
+              className="map-overlay-card map-overlay-card-risk"
+              style={{ borderColor: isHigh ? 'var(--red)' : 'var(--green)' }}
               aria-live="polite"
               aria-atomic="true"
             >
