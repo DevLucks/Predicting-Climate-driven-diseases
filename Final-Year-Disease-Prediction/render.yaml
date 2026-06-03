@@ -1,0 +1,25 @@
+services:
+
+  # ── FastAPI backend ──────────────────────────────────────────────────────
+  - type: web
+    name: outbreak-watch-api
+    runtime: python
+    rootDir: Final-Year-Disease-Prediction
+    buildCommand: pip install -r backend/requirements.txt
+    startCommand: uvicorn backend.main:app --host 0.0.0.0 --port $PORT
+    plan: free
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.0
+
+  # ── React / Vite static site ─────────────────────────────────────────────
+  - type: web
+    name: outbreak-watch-frontend
+    runtime: static
+    rootDir: Final-Year-Disease-Prediction/frontend
+    buildCommand: npm install && npm run build
+    staticPublishPath: dist
+    envVars:
+      - key: VITE_API_URL
+        sync: false   # set this in the Render dashboard to your backend URL
+                      # e.g. https://outbreak-watch-api.onrender.com

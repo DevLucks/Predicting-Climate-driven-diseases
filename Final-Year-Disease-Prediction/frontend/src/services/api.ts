@@ -3,7 +3,7 @@ import type {
   HistoricalRecord, ModelResult, FeatureImportance, ApiResult,
 } from '../types';
 
-const BASE = 'http://localhost:8000';
+const BASE = import.meta.env.VITE_API_URL ?? 'http://localhost:8000';
 const CACHE_TTL = 10 * 60 * 1000;
 
 function readCache<T>(key: string): T | null {
