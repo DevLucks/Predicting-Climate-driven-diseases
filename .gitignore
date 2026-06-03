@@ -1,15 +1,27 @@
-venv/
+# Python
 __pycache__/
 *.pyc
+*.pyo
+*.pyd
+venv/
+.env
+.cdsapirc
+
+# Node
+node_modules/
+dist/
+.vite/
+
+# macOS
+.DS_Store
+**/.DS_Store
+
+# Editor
+.idea/
+.vscode/
+
+# Build artefacts
 *.pkl
 *.nc
 *.grib
 *.grib.idx
-.env
-.cdsapirc
-node_modules/
-frontend/dist/
-frontend/.env
-*.DS_Store
-data/raw/*.nc
-data/raw/*.grib
