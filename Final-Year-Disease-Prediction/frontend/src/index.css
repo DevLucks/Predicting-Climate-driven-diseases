@@ -419,6 +419,93 @@ input[type='range']:focus-visible::-webkit-slider-thumb {
   box-shadow: var(--focus-ring);
 }
 
+/* ─── Leaflet dark overrides ────────────────────────────────────────────── */
+.leaflet-container { background: var(--navy) !important; }
+.leaflet-control-zoom a {
+  background: var(--navy-mid) !important;
+  color: var(--teal) !important;
+  border-color: var(--border) !important;
+  font-size: 16px !important;
+  line-height: 26px !important;
+}
+.leaflet-control-zoom a:hover { background: var(--navy-light) !important; }
+.leaflet-control-attribution { display: none; }
+
+/* Nigeria outline glow — applied to the country-border GeoJSON layer */
+.nigeria-glow-path { filter: drop-shadow(0 0 6px #0EA5B5); }
+
+/* ─── Pulse hotspot markers ─────────────────────────────────────────────── */
+.pulse-icon-wrapper { background: transparent !important; border: none !important; }
+.pulse-dot {
+  position: relative;
+  width: 24px; height: 24px;
+}
+.pulse-dot-inner {
+  position: absolute; top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 10px; height: 10px;
+  background: #E8453C;
+  border-radius: 50%;
+  z-index: 2;
+  box-shadow: 0 0 8px #E8453C;
+}
+.pulse-dot-ring {
+  position: absolute; top: 50%; left: 50%;
+  width: 24px; height: 24px;
+  margin-left: -12px; margin-top: -12px;
+  border: 2px solid #E8453C;
+  border-radius: 50%;
+  animation: pulse-ring 1.8s ease-out infinite;
+}
+.pulse-dot-ring.delay { animation-delay: 0.9s; }
+@keyframes pulse-ring {
+  0%   { transform: scale(0.3); opacity: 1; }
+  100% { transform: scale(2.0); opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .pulse-dot-ring { animation: none; }
+}
+
+/* ─── Map legend (rendered via L.control DomUtil) ───────────────────────── */
+.choro-legend {
+  background: rgba(13, 33, 55, 0.93);
+  border: 1px solid #0EA5B528;
+  padding: 10px 12px;
+  border-radius: 2px;
+  font-family: 'IBM Plex Mono', monospace;
+  color: #7BA8BA;
+  min-width: 200px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.5);
+}
+.choro-legend-title {
+  display: block;
+  color: #0EA5B5;
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+.choro-legend-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 5px;
+  font-size: 10px;
+}
+.choro-legend-swatch {
+  width: 12px; height: 12px;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+.choro-legend-pulse {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  background: #E8453C;
+  flex-shrink: 0;
+  box-shadow: 0 0 6px #E8453C;
+}
+
 /* ─── Recharts overrides ────────────────────────────────────────────────── */
 .recharts-cartesian-grid-horizontal line,
 .recharts-cartesian-grid-vertical line { stroke: var(--grid-line) !important; }

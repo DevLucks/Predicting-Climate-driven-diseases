@@ -9,6 +9,10 @@ export default defineConfig({
       'react-globe.gl',
       'three',
       'react-router-dom',
+      'react-leaflet',
+      '@react-leaflet/core',
+      'leaflet',
+      'topojson-client',
     ],
   },
   resolve: {

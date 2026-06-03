@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { NigeriaGlobe } from '../components/NigeriaGlobe';
+import { NigeriaChoroMap } from '../components/NigeriaChoroMap';
 import { Skel, CardSkel } from '../components/LoadingSkeleton';
 import {
   fetchLiveWeather, fetchPrediction,
@@ -75,23 +75,17 @@ export default function Dashboard() {
 
       <div className="divider mt-5" />
 
-      {/* Hero grid: globe + right panel */}
+      {/* Hero grid: choropleth map + right panel */}
       <div className="hero-grid mt-5">
-        {/* Globe */}
+        {/* Nigeria Choropleth Map */}
         <motion.div
           className="card globe-container"
           initial={{ opacity: 0, scale: 0.96 }}
           animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
+          transition={{ duration: 0.4, delay: 0.15 }}
           style={{ padding: 0, overflow: 'hidden', position: 'relative' }}
         >
-          <div style={{ position: 'absolute', top: 'var(--s4)', left: 'var(--s4)', zIndex: 10 }}>
-            <h2 className="section-label" style={{ marginBottom: 4 }}>Live Surveillance</h2>
-            <div style={{ fontSize: 'var(--text-xs)', color: 'var(--text-dim)', letterSpacing: '0.08em' }}>
-              Pulsing = high-burden states
-            </div>
-          </div>
-          <NigeriaGlobe />
+          <NigeriaChoroMap />
         </motion.div>
 
         {/* Right column */}
