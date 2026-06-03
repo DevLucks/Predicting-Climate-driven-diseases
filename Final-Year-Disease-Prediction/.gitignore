@@ -1,15 +1,22 @@
+# Python
 venv/
 __pycache__/
 *.pyc
-*.pkl
-*.nc
-*.grib
-*.grib.idx
+*.pyo
+*.pyd
 .env
 .cdsapirc
+
+# Data & model binaries (too large for git)
+outputs/*.pkl
+data/raw/
+
+# Node
 node_modules/
 frontend/dist/
+frontend/.vite/
 frontend/.env
-*.DS_Store
-data/raw/*.nc
-data/raw/*.grib
+
+# macOS
+.DS_Store
+**/.DS_Store
