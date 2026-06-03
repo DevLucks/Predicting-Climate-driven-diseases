@@ -1,11 +1,15 @@
 import { useEffect, useRef, useState } from 'react';
 import {
-  MapContainer, GeoJSON, ZoomControl, useMap,
+  MapContainer, GeoJSON, ZoomControl, TileLayer, Marker, Popup, useMap,
 } from 'react-leaflet';
 import L from 'leaflet';
 import { feature } from 'topojson-client';
 import type { Topology, GeometryCollection } from 'topojson-specification';
 import type { FeatureCollection, Feature } from 'geojson';
+
+// Prevent Leaflet's CSS-based icon auto-detection from 404-ing in Vite builds.
+// We use only L.divIcon so the default raster images are never displayed.
+delete (L.Icon.Default.prototype as unknown as Record<string, unknown>)._getIconUrl;
 
 /* ── Risk buckets ────────────────────────────────────────────────────────── */
 const HIGH_RISK = new Set([
@@ -20,8 +24,6 @@ const MEDIUM_RISK = new Set([
   'Kogi', 'Benue', 'Plateau', 'Kaduna', 'Niger', 'Kwara',
 ]);
 
-// Everything else = LOW RISK
-
 /* ── Outbreak hotspots ───────────────────────────────────────────────────── */
 const HOTSPOTS = [
   { lat: 11.8333, lng: 13.1500, label: 'Borno Hotspot',   state: 'Borno',   risk: 'HIGH' },
@@ -33,6 +35,12 @@ const HOTSPOTS = [
 ];
 
 const NIGERIA_BOUNDS: L.LatLngBoundsExpression = [[4.0, 2.7], [13.9, 14.7]];
+
+// Bundled locally so the map works fully offline on defence day.
+// CDN is a fallback only.
+const LOCAL_TOPOJSON = '/nigeria-states.json';
+const CDN_TOPOJSON =
+  'https://cdn.jsdelivr.net/npm/@highcharts/map-collection@2.0.0/countries/ng/ng-all.topo.json';
 
 /* ── Helpers ─────────────────────────────────────────────────────────────── */
 function getStateName(f: Feature): string {
@@ -60,29 +68,24 @@ function riskLabel(name: string): string {
   return 'LOW';
 }
 
-/* ── Data fetcher ────────────────────────────────────────────────────────── */
-const TOPOJSON_URL =
-  'https://raw.githubusercontent.com/deldersveld/topojson/master/countries/nigeria/nigeria-states.json';
-const GEOJSON_BACKUP =
-  'https://raw.githubusercontent.com/geodata/nigeria-geojson/master/states.geojson';
+/* ── GeoJSON loader ──────────────────────────────────────────────────────── */
+async function topoFromUrl(url: string): Promise<FeatureCollection> {
+  const res = await fetch(url);
+  if (!res.ok) throw new Error(`HTTP ${res.status}`);
+  const topo = await res.json() as Topology<{ [k: string]: GeometryCollection }>;
+  const key = Object.keys(topo.objects)[0];
+  return feature(topo, topo.objects[key]) as unknown as FeatureCollection;
+}
 
 async function loadNigeriaGeoJSON(): Promise<FeatureCollection> {
-  // Try topojson primary source
   try {
-    const res = await fetch(TOPOJSON_URL);
-    if (!res.ok) throw new Error('topojson fetch failed');
-    const topo = await res.json() as Topology<{ [k: string]: GeometryCollection }>;
-    const key = Object.keys(topo.objects)[0];
-    return feature(topo, topo.objects[key]) as unknown as FeatureCollection;
+    return await topoFromUrl(LOCAL_TOPOJSON);
   } catch {
-    // Fall back to GeoJSON source
-    const res = await fetch(GEOJSON_BACKUP);
-    if (!res.ok) throw new Error('both sources failed');
-    return res.json() as Promise<FeatureCollection>;
+    return topoFromUrl(CDN_TOPOJSON);
   }
 }
 
-/* ── Pulse icon factory ──────────────────────────────────────────────────── */
+/* ── Pulse icon ──────────────────────────────────────────────────────────── */
 function makePulseIcon(): L.DivIcon {
   return L.divIcon({
     className: 'pulse-icon-wrapper',
@@ -91,8 +94,8 @@ function makePulseIcon(): L.DivIcon {
       <div class="pulse-dot-ring"></div>
       <div class="pulse-dot-ring delay"></div>
     </div>`,
-    iconSize: [24, 24],
-    iconAnchor: [12, 12],
+    iconSize:    [24, 24],
+    iconAnchor:  [12, 12],
     popupAnchor: [0, -14],
   });
 }
@@ -136,25 +139,12 @@ function MapLegend() {
   return null;
 }
 
-function TileLayer() {
-  const map = useMap();
-  useEffect(() => {
-    const tile = L.tileLayer(
-      'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',
-      { subdomains: 'abcd', maxZoom: 20 },
-    );
-    tile.addTo(map);
-    return () => { tile.remove(); };
-  }, [map]);
-  return null;
-}
-
 /* ── Main component ──────────────────────────────────────────────────────── */
 export function NigeriaChoroMap() {
-  const [geoData, setGeoData] = useState<FeatureCollection | null>(null);
-  const [error, setError] = useState(false);
-  const [mounted, setMounted] = useState(false);
-  const pulseIcon = useRef(makePulseIcon());
+  const [geoData, setGeoData]   = useState<FeatureCollection | null>(null);
+  const [error, setError]       = useState(false);
+  const [mounted, setMounted]   = useState(false);
+  const pulseIcon               = useRef(makePulseIcon());
 
   useEffect(() => {
     setMounted(true);
@@ -166,19 +156,19 @@ export function NigeriaChoroMap() {
   const styleFeature = (f?: Feature): L.PathOptions => {
     const name = f ? getStateName(f) : '';
     return {
-      fillColor: stateColor(name),
+      fillColor:   stateColor(name),
       fillOpacity: stateOpacity(name),
-      color: '#0D2137',
-      weight: 0.8,
-      opacity: 1,
+      color:       '#0D2137',
+      weight:      0.8,
+      opacity:     1,
     };
   };
 
   const onEachFeature = (f: Feature, layer: L.Layer) => {
-    const name = getStateName(f);
-    const risk = riskLabel(name);
+    const name  = getStateName(f);
+    const risk  = riskLabel(name);
     const color = stateColor(name);
-    ;(layer as L.Path).bindTooltip(
+    (layer as L.Path).bindTooltip(
       `<div style="font-family:'IBM Plex Mono',monospace;font-size:11px;background:#0D2137;border:1px solid ${color};padding:5px 10px;color:#E8F4F8;border-radius:2px">
         <strong style="color:${color}">${name || 'Unknown'}</strong><br/>
         Risk Level: <span style="color:${color};font-weight:600">${risk}</span><br/>
@@ -186,13 +176,17 @@ export function NigeriaChoroMap() {
       </div>`,
       { sticky: true, opacity: 1, className: '' },
     );
-    ;(layer as L.Path).on({
+    (layer as L.Path).on({
       mouseover(e: L.LeafletMouseEvent) {
-        ;(e.target as L.Path).setStyle({ weight: 2, color: '#0EA5B5', fillOpacity: Math.min(stateOpacity(name) + 0.15, 1) });
-        ;(e.target as L.Path).bringToFront();
+        (e.target as L.Path).setStyle({
+          weight:      2,
+          color:       '#0EA5B5',
+          fillOpacity: Math.min(stateOpacity(name) + 0.15, 1),
+        });
+        (e.target as L.Path).bringToFront();
       },
       mouseout(e: L.LeafletMouseEvent) {
-        ;(e.target as L.Path).setStyle(styleFeature(f));
+        (e.target as L.Path).setStyle(styleFeature(f));
       },
     });
   };
@@ -237,73 +231,40 @@ export function NigeriaChoroMap() {
         attributionControl={false}
         key="nigeria-map"
       >
-        <TileLayer />
+        <TileLayer
+          url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
+          subdomains="abcd"
+          maxZoom={20}
+        />
         <FitBounds />
         <ZoomControl position="topright" />
         <MapLegend />
 
-        {/* State choropleth */}
         {geoData && (
           <GeoJSON
-            key={geoData.features?.length}
+            key={geoData.features.length}
             data={geoData}
             style={styleFeature}
             onEachFeature={onEachFeature}
           />
         )}
 
-        {/* Skeleton while loading */}
-        {!geoData && !error && HOTSPOTS.map(h => (
-          <div key={h.label} />
+        {geoData && HOTSPOTS.map(h => (
+          <Marker key={h.label} position={[h.lat, h.lng]} icon={pulseIcon.current}>
+            <Popup className="">
+              <div style={{
+                fontFamily: "'IBM Plex Mono', monospace", fontSize: 11,
+                background: '#0D2137', border: '1px solid #E8453C',
+                padding: '6px 10px', color: '#E8F4F8', minWidth: 160, borderRadius: 2,
+              }}>
+                <strong style={{ color: '#E8453C' }}>{h.label}</strong><br />
+                State: {h.state}<br />
+                Risk: <span style={{ color: '#E8453C', fontWeight: 600 }}>{h.risk} RISK</span><br />
+                <span style={{ color: '#5E8FA3', fontSize: 10 }}>Major cholera burden area</span>
+              </div>
+            </Popup>
+          </Marker>
         ))}
-
-        {/* Pulsing hotspot markers */}
-        {geoData && HOTSPOTS.map(h => {
-          const marker = L.marker([h.lat, h.lng], { icon: pulseIcon.current });
-          marker.bindPopup(
-            `<div style="font-family:'IBM Plex Mono',monospace;font-size:11px;background:#0D2137;border:1px solid #E8453C;padding:6px 10px;color:#E8F4F8;min-width:160px;border-radius:2px">
-              <strong style="color:#E8453C">${h.label}</strong><br/>
-              State: ${h.state}<br/>
-              Risk: <span style="color:#E8453C;font-weight:600">${h.risk} RISK</span><br/>
-              <span style="color:#5E8FA3;font-size:10px">Major cholera burden area</span>
-            </div>`,
-            { className: '' },
-          );
-          // Use an effect-rendered approach via a GeoJSON point feature
-          return null;
-        })}
-
-        {/* Hotspot markers rendered as a GeoJSON point layer */}
-        {geoData && (() => {
-          const hotspotFeatures: FeatureCollection = {
-            type: 'FeatureCollection',
-            features: HOTSPOTS.map(h => ({
-              type: 'Feature' as const,
-              properties: { ...h },
-              geometry: { type: 'Point' as const, coordinates: [h.lng, h.lat] },
-            })),
-          };
-          return (
-            <GeoJSON
-              key="hotspots"
-              data={hotspotFeatures}
-              pointToLayer={(f, latlng) => {
-                const m = L.marker(latlng, { icon: pulseIcon.current });
-                const p = f.properties as typeof HOTSPOTS[0];
-                m.bindPopup(
-                  `<div style="font-family:'IBM Plex Mono',monospace;font-size:11px;background:#0D2137;border:1px solid #E8453C;padding:6px 10px;color:#E8F4F8;min-width:160px;border-radius:2px">
-                    <strong style="color:#E8453C">${p.label}</strong><br/>
-                    State: ${p.state}<br/>
-                    Risk: <span style="color:#E8453C;font-weight:600">${p.risk} RISK</span><br/>
-                    <span style="color:#5E8FA3;font-size:10px">Major cholera burden area</span>
-                  </div>`,
-                  { className: '' },
-                );
-                return m;
-              }}
-            />
-          );
-        })()}
       </MapContainer>
     </div>
   );

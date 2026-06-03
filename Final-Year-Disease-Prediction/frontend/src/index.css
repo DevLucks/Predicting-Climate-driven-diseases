@@ -168,7 +168,29 @@ body::before {
   gap: var(--s5);
   align-items: start;
 }
-.globe-container { height: 420px; }
+.globe-container { height: 560px; }
+
+/* ─── Map overlay strip (Dashboard full-width map) ──────────────────────── */
+.map-overlay-strip {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  display: flex;
+  gap: var(--s3);
+  padding: var(--s8) var(--s4) var(--s4);
+  background: linear-gradient(to top, rgba(13,33,55,0.97) 0%, rgba(13,33,55,0.75) 55%, transparent 100%);
+  flex-wrap: wrap;
+  align-items: flex-end;
+}
+.map-overlay-card {
+  background: rgba(17,41,68,0.85);
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  padding: var(--s3) var(--s4);
+  flex: 1 1 130px;
+}
 
 /* ─── Breakpoints ───────────────────────────────────────────────────────── */
 
@@ -188,7 +210,9 @@ body::before {
   .grid-2         { grid-template-columns: 1fr; }
   .grid-3         { grid-template-columns: 1fr; }
   .grid-4         { grid-template-columns: repeat(2, 1fr); }
-  .globe-container { height: 280px; }
+  .globe-container { height: 380px; }
+  .map-overlay-strip { padding: var(--s6) var(--s3) var(--s3); gap: var(--s2); }
+  .map-overlay-card { padding: var(--s2) var(--s3); flex: 1 1 100px; }
   .page-title { font-size: var(--text-2xl); }
   .presentation-btn { display: none; }
   .presentation-watermark { font-size: 10px; bottom: 80px; }
@@ -198,7 +222,7 @@ body::before {
 @media (min-width: 768px) and (max-width: 1024px) {
   .hero-grid      { grid-template-columns: 1fr 320px; }
   .predictor-grid { grid-template-columns: 300px 1fr; }
-  .globe-container { height: 360px; }
+  .globe-container { height: 480px; }
 }
 
 /* Wide / presentation (≥ 1440px) */
