@@ -21,7 +21,7 @@ export function RiskGauge({ probability }: Props) {
       {/* Track */}
       <path
         d={`M ${cx - r} ${cy} A ${r} ${r} 0 0 1 ${cx + r} ${cy}`}
-        fill="none" stroke="#1a3a52" strokeWidth="14" strokeLinecap="round"
+        fill="none" stroke="#E2E8F0" strokeWidth="14" strokeLinecap="round"
       />
       {/* Colored fill */}
       <path
@@ -35,15 +35,15 @@ export function RiskGauge({ probability }: Props) {
         const a = (180 - v * 180) * Math.PI / 180;
         const mx = cx + (r + 10) * Math.cos(a);
         const my = cy - (r + 10) * Math.sin(a);
-        return <circle key={v} cx={mx} cy={my} r={2} fill="#3D6478" />;
+        return <circle key={v} cx={mx} cy={my} r={2} fill="#94A3B8" />;
       })}
       {/* Needle */}
       <line
         x1={cx} y1={cy} x2={nx} y2={ny}
-        stroke="white" strokeWidth="2.5" strokeLinecap="round"
+        stroke="#0F172A" strokeWidth="2.5" strokeLinecap="round"
         style={{ transition: 'x2 0.6s cubic-bezier(0.4,0,0.2,1), y2 0.6s cubic-bezier(0.4,0,0.2,1)' }}
       />
-      <circle cx={cx} cy={cy} r={5} fill="white" />
+      <circle cx={cx} cy={cy} r={5} fill="#0F172A" />
       <circle cx={cx} cy={cy} r={3} fill={color} />
       {/* Labels */}
       <text x={cx} y={cy - 22} textAnchor="middle" fill={color} fontFamily="'Syne',sans-serif" fontSize="22" fontWeight="700">
@@ -52,8 +52,8 @@ export function RiskGauge({ probability }: Props) {
       <text x={cx} y={cy - 6} textAnchor="middle" fill={color} fontFamily="'IBM Plex Mono',monospace" fontSize="9" letterSpacing="0.15em">
         {isHigh ? 'HIGH RISK' : 'LOW RISK'}
       </text>
-      <text x={cx - r - 2} y={cy + 16} textAnchor="middle" fill="#3D6478" fontFamily="'IBM Plex Mono',monospace" fontSize="9">0</text>
-      <text x={cx + r + 2} y={cy + 16} textAnchor="middle" fill="#3D6478" fontFamily="'IBM Plex Mono',monospace" fontSize="9">100</text>
+      <text x={cx - r - 2} y={cy + 16} textAnchor="middle" fill="#94A3B8" fontFamily="'IBM Plex Mono',monospace" fontSize="9">0</text>
+      <text x={cx + r + 2} y={cy + 16} textAnchor="middle" fill="#94A3B8" fontFamily="'IBM Plex Mono',monospace" fontSize="9">100</text>
     </svg>
   );
 }

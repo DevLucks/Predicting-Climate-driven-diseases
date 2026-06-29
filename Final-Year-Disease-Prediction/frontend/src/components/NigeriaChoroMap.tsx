@@ -158,8 +158,8 @@ export function NigeriaChoroMap() {
     return {
       fillColor:   stateColor(name),
       fillOpacity: stateOpacity(name),
-      color:       '#0D2137',
-      weight:      0.8,
+      color:       '#FFFFFF',
+      weight:      1.0,
       opacity:     1,
     };
   };
@@ -169,10 +169,10 @@ export function NigeriaChoroMap() {
     const risk  = riskLabel(name);
     const color = stateColor(name);
     (layer as L.Path).bindTooltip(
-      `<div style="font-family:'IBM Plex Mono',monospace;font-size:11px;background:#0D2137;border:1px solid ${color};padding:5px 10px;color:#E8F4F8;border-radius:2px">
+      `<div style="font-family:'IBM Plex Mono',monospace;font-size:11px;background:#FFFFFF;border:1px solid ${color};padding:5px 10px;color:#0F172A;border-radius:2px;box-shadow:0 2px 8px rgba(0,0,0,0.12)">
         <strong style="color:${color}">${name || 'Unknown'}</strong><br/>
         Risk Level: <span style="color:${color};font-weight:600">${risk}</span><br/>
-        <span style="color:#5E8FA3;font-size:10px">Cholera burden 2010–2025</span>
+        <span style="color:#64748B;font-size:10px">Cholera burden 2010–2025</span>
       </div>`,
       { sticky: true, opacity: 1, className: '' },
     );
@@ -214,7 +214,7 @@ export function NigeriaChoroMap() {
         <div style={{
           position: 'absolute', inset: 0, zIndex: 900,
           display: 'flex', alignItems: 'center', justifyContent: 'center',
-          background: 'var(--navy-mid)', flexDirection: 'column', gap: 'var(--s3)',
+          background: 'var(--navy-light)', flexDirection: 'column', gap: 'var(--s3)',
           fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: 'var(--text-dim)',
         }}>
           <div>Could not load Nigeria GeoJSON</div>
@@ -223,7 +223,7 @@ export function NigeriaChoroMap() {
       )}
 
       <MapContainer
-        style={{ width: '100%', height: '100%', background: '#0D2137' }}
+        style={{ width: '100%', height: '100%', background: '#E8EEF4' }}
         center={[9.082, 8.675]}
         zoom={6}
         scrollWheelZoom={false}
@@ -232,7 +232,7 @@ export function NigeriaChoroMap() {
         key="nigeria-map"
       >
         <TileLayer
-          url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
+          url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
           subdomains="abcd"
           maxZoom={20}
         />
@@ -254,13 +254,13 @@ export function NigeriaChoroMap() {
             <Popup className="">
               <div style={{
                 fontFamily: "'IBM Plex Mono', monospace", fontSize: 11,
-                background: '#0D2137', border: '1px solid #E8453C',
-                padding: '6px 10px', color: '#E8F4F8', minWidth: 160, borderRadius: 2,
+                background: '#FFFFFF', border: '1px solid #DC2626',
+                padding: '6px 10px', color: '#0F172A', minWidth: 160, borderRadius: 2, boxShadow: '0 2px 8px rgba(0,0,0,0.12)',
               }}>
-                <strong style={{ color: '#E8453C' }}>{h.label}</strong><br />
+                <strong style={{ color: '#DC2626' }}>{h.label}</strong><br />
                 State: {h.state}<br />
-                Risk: <span style={{ color: '#E8453C', fontWeight: 600 }}>{h.risk} RISK</span><br />
-                <span style={{ color: '#5E8FA3', fontSize: 10 }}>Major cholera burden area</span>
+                Risk: <span style={{ color: '#DC2626', fontWeight: 600 }}>{h.risk} RISK</span><br />
+                <span style={{ color: '#64748B', fontSize: 10 }}>Major cholera burden area</span>
               </div>
             </Popup>
           </Marker>

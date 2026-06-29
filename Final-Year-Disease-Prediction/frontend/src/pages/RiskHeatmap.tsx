@@ -11,22 +11,16 @@ const isHigh = (year: number, month: number) =>
   HIGH_YEARS.has(year) && RAINY.has(month);
 
 const STATES = [
-  { name: 'Borno',     region: 'NE', cholera: 95, lassa: 0  },
-  { name: 'Adamawa',   region: 'NE', cholera: 88, lassa: 0  },
-  { name: 'Yobe',      region: 'NE', cholera: 82, lassa: 0  },
-  { name: 'Rivers',    region: 'SS', cholera: 80, lassa: 0  },
-  { name: 'Lagos',     region: 'SW', cholera: 78, lassa: 0  },
-  { name: 'Edo',       region: 'SS', cholera: 0,  lassa: 85 },
-  { name: 'Ondo',      region: 'SW', cholera: 0,  lassa: 82 },
-  { name: 'Ebonyi',    region: 'SE', cholera: 0,  lassa: 78 },
-  { name: 'Bauchi',    region: 'NE', cholera: 0,  lassa: 76 },
-  { name: 'Plateau',   region: 'NC', cholera: 0,  lassa: 74 },
-  { name: 'Taraba',    region: 'NE', cholera: 0,  lassa: 72 },
-  { name: 'Kano',      region: 'NW', cholera: 25, lassa: 0  },
-  { name: 'Kaduna',    region: 'NW', cholera: 28, lassa: 0  },
-  { name: 'FCT Abuja', region: 'NC', cholera: 20, lassa: 0  },
-  { name: 'Ogun',      region: 'SW', cholera: 25, lassa: 0  },
-  { name: 'Delta',     region: 'SS', cholera: 35, lassa: 30 },
+  { name: 'Borno',     region: 'NE', cholera: 95 },
+  { name: 'Adamawa',   region: 'NE', cholera: 88 },
+  { name: 'Yobe',      region: 'NE', cholera: 82 },
+  { name: 'Rivers',    region: 'SS', cholera: 80 },
+  { name: 'Lagos',     region: 'SW', cholera: 78 },
+  { name: 'Delta',     region: 'SS', cholera: 35 },
+  { name: 'Kaduna',    region: 'NW', cholera: 28 },
+  { name: 'Kano',      region: 'NW', cholera: 25 },
+  { name: 'Ogun',      region: 'SW', cholera: 25 },
+  { name: 'FCT Abuja', region: 'NC', cholera: 20 },
 ];
 
 /* ── Heatmap grid ──────────────────────────────────────────────────────── */
@@ -130,7 +124,7 @@ function StateRiskTable() {
       <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 'var(--text-xs)' }}>
         <thead>
           <tr style={{ borderBottom: '1px solid var(--border)' }}>
-            {['State', 'Region', 'Cholera Risk', 'Lassa Risk', 'Combined'].map(h => (
+            {['State', 'Region', 'Cholera Risk', 'Burden Level'].map(h => (
               <th key={h} style={{ padding: 'var(--s2) var(--s3)', textAlign: 'left', color: 'var(--text-dim)', fontWeight: 500, letterSpacing: '0.08em', fontFamily: 'var(--font-mono)' }}>
                 {h}
               </th>
@@ -138,9 +132,8 @@ function StateRiskTable() {
           </tr>
         </thead>
         <tbody>
-          {STATES.sort((a, b) => (b.cholera + b.lassa) - (a.cholera + a.lassa)).map((s, i) => {
-            const combined = Math.max(s.cholera, s.lassa);
-            const isHighRisk = combined >= 70;
+          {STATES.sort((a, b) => b.cholera - a.cholera).map((s, i) => {
+            const isHighRisk = s.cholera >= 70;
             return (
               <tr
                 key={s.name}
@@ -156,32 +149,23 @@ function StateRiskTable() {
                 </td>
                 <td style={{ padding: 'var(--s2) var(--s3)', color: 'var(--text-dim)' }}>{s.region}</td>
                 <td style={{ padding: 'var(--s2) var(--s3)' }}>
-                  {s.cholera > 0 ? (
-                    <span style={{ color: s.cholera >= 70 ? 'var(--red)' : 'var(--text-secondary)' }}>
-                      {s.cholera}%
-                    </span>
-                  ) : <span style={{ color: 'var(--text-dim)' }}>—</span>}
-                </td>
-                <td style={{ padding: 'var(--s2) var(--s3)' }}>
-                  {s.lassa > 0 ? (
-                    <span style={{ color: s.lassa >= 70 ? 'var(--gold)' : 'var(--text-secondary)' }}>
-                      {s.lassa}%
-                    </span>
-                  ) : <span style={{ color: 'var(--text-dim)' }}>—</span>}
+                  <span style={{ color: s.cholera >= 70 ? 'var(--red)' : 'var(--text-secondary)' }}>
+                    {s.cholera}%
+                  </span>
                 </td>
                 <td style={{ padding: 'var(--s2) var(--s3)' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                     <div style={{ flex: 1, height: 4, background: 'var(--navy-light)', borderRadius: 2, overflow: 'hidden' }}>
                       <div style={{
                         height: '100%',
-                        width: `${combined}%`,
-                        background: combined >= 70 ? 'var(--red)' : combined >= 40 ? 'var(--gold)' : 'var(--green)',
+                        width: `${s.cholera}%`,
+                        background: s.cholera >= 70 ? 'var(--red)' : s.cholera >= 40 ? 'var(--gold)' : 'var(--green)',
                         borderRadius: 2,
                         transition: 'width 0.6s ease',
                       }} />
                     </div>
-                    <span style={{ color: combined >= 70 ? 'var(--red)' : 'var(--text-secondary)', width: 32, textAlign: 'right' }}>
-                      {combined}%
+                    <span style={{ color: s.cholera >= 70 ? 'var(--red)' : 'var(--text-secondary)', width: 32, textAlign: 'right' }}>
+                      {s.cholera}%
                     </span>
                   </div>
                 </td>
@@ -227,7 +211,7 @@ export default function RiskHeatmap() {
               <span className="text-secondary">High Risk (1) — high-severity year + rainy month</span>
             </span>
             <span style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-              <span style={{ width: 12, height: 12, background: 'var(--green-dim)', border: '1px solid #3CCB7F30', borderRadius: 2, display: 'inline-block' }} />
+              <span style={{ width: 12, height: 12, background: 'var(--green-dim)', border: '1px solid #05966930', borderRadius: 2, display: 'inline-block' }} />
               <span className="text-secondary">Low Risk (0)</span>
             </span>
           </div>
@@ -258,8 +242,8 @@ export default function RiskHeatmap() {
         </div>
         <div className="flex gap-5 mt-3" style={{ flexWrap: 'wrap', fontSize: 'var(--text-xs)' }}>
           {[
-            { color: 'var(--red)',  label: 'High cholera burden — Borno, Adamawa, Yobe, Rivers, Lagos' },
-            { color: 'var(--gold)', label: 'High Lassa burden — Edo, Ondo, Ebonyi, Bauchi, Plateau, Taraba' },
+            { color: 'var(--red)',    label: 'High cholera burden — Borno, Adamawa, Yobe, Rivers, Lagos' },
+            { color: 'var(--gold)',   label: 'Moderate burden — Delta, Kaduna, Kano, Ogun, FCT Abuja' },
           ].map(({ color, label }) => (
             <div key={label} style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
               <span style={{ width: 8, height: 8, borderRadius: 1, background: color, display: 'inline-block', flexShrink: 0 }} />

@@ -14,12 +14,12 @@ import type { ModelResult, FeatureImportance } from '../types';
 type Tab = 'accuracy' | 'f1' | 'recall';
 
 const TAB_LABELS: Record<Tab, string> = { accuracy: 'ACCURACY', f1: 'F1 SCORE', recall: 'RECALL' };
-const COLORS = ['#0A7E8C','#7BA8BA','#3CCB7F','#E8A020','#E8453C'];
+const COLORS = ['#0891A2','#475569','#059669','#B45309','#DC2626'];
 
 const CustomTooltip = ({ active, payload, label }: { active?: boolean; payload?: { value: number }[]; label?: string }) => {
   if (!active || !payload?.length) return null;
   return (
-    <div style={{ background: 'var(--navy-mid)', border: '1px solid var(--border)', padding: '8px 12px', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)' }}>
+    <div style={{ background: 'var(--navy)', border: '1px solid var(--border)', padding: '8px 12px', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', boxShadow: '0 2px 8px rgba(0,0,0,0.1)' }}>
       <div style={{ color: 'var(--text-secondary)', marginBottom: 4 }}>{label}</div>
       <div style={{ color: 'var(--teal)', fontWeight: 600 }}>{payload[0].value.toFixed(2)}%</div>
     </div>

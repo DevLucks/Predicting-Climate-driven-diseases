@@ -157,7 +157,7 @@ export default function LivePredictor() {
             </div>
           </dl>
 
-          <div style={{ marginTop: 'var(--s4)', padding: 'var(--s3)', background: 'var(--navy)', borderRadius: 2, fontSize: 'var(--text-xs)', color: 'var(--text-dim)', lineHeight: 1.7 }}>
+          <div style={{ marginTop: 'var(--s4)', padding: 'var(--s3)', background: 'var(--navy-light)', borderRadius: 2, fontSize: 'var(--text-xs)', color: 'var(--text-dim)', lineHeight: 1.7, border: '1px solid var(--border)' }}>
             Powered by ERA5 climate data + trained ML model
             <br /><span className="text-teal">cholera_ensemble_model.pkl</span> · lag features auto-derived
           </div>
@@ -232,7 +232,7 @@ export default function LivePredictor() {
                 <motion.div key={f.feature}
                   initial={{ opacity: 0, x: 16 }} animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: i * 0.07, duration: 0.25 }}
-                  style={{ display: 'flex', alignItems: 'center', gap: 'var(--s4)', marginBottom: 'var(--s3)', padding: 'var(--s3)', background: 'var(--navy)', borderRadius: 2, border: '1px solid var(--border)' }}
+                  style={{ display: 'flex', alignItems: 'center', gap: 'var(--s4)', marginBottom: 'var(--s3)', padding: 'var(--s3)', background: 'var(--navy-mid)', borderRadius: 2, border: '1px solid var(--border)' }}
                 >
                   <div aria-hidden="true" style={{ width: 24, height: 24, background: 'var(--teal-dim)', border: '1px solid var(--teal)', borderRadius: 2, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'var(--text-xs)', color: 'var(--teal)', fontWeight: 700, flexShrink: 0 }}>
                     {i + 1}

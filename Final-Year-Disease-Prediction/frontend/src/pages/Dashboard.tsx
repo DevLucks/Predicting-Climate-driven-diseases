@@ -69,7 +69,7 @@ export default function Dashboard() {
         <motion.div variants={ITEM}>
           <p className="page-eyebrow">Nigeria Disease Intelligence</p>
           <h1 className="page-title">Climate Risk<br />Early Warning</h1>
-          <p className="page-subtitle">Real-time outbreak risk · {MONTH_NAMES[month-1]} {new Date().getFullYear()} · Cholera + Lassa Fever</p>
+          <p className="page-subtitle">Real-time outbreak risk · {MONTH_NAMES[month-1]} {new Date().getFullYear()} · Cholera Outbreak Surveillance</p>
         </motion.div>
       </motion.div>
 

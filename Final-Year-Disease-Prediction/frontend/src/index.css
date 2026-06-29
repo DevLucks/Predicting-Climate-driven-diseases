@@ -1,26 +1,26 @@
 /* ─── Design Tokens ─────────────────────────────────────────────────────── */
 :root {
-  /* Brand colours — all text/border uses verified ≥4.5:1 on navy/navy-mid */
-  --navy:        #0D2137;
-  --navy-mid:    #112944;
-  --navy-light:  #1a3a52;
-  --teal:        #0EA5B5;   /* was #0A7E8C — now 6.3:1 on navy, 6.0:1 on navy-mid */
-  --teal-glow:   #0EA5B555;
-  --teal-dim:    #0EA5B520;
-  --gold:        #E8A020;
-  --gold-dim:    #E8A02033;
-  --red:         #E8453C;
-  --red-dim:     #E8453C33;
-  --green:       #3CCB7F;
-  --green-dim:   #3CCB7F22;
+  /* Light theme — white background, dark text */
+  --navy:        #FFFFFF;
+  --navy-mid:    #F4F7FA;
+  --navy-light:  #E8EEF4;
+  --teal:        #0891A2;   /* cyan-600 — 4.9:1 on white (WCAG AA) */
+  --teal-glow:   #0891A255;
+  --teal-dim:    #0891A218;
+  --gold:        #B45309;   /* amber-700 — 5.5:1 on white (WCAG AA) */
+  --gold-dim:    #B4530920;
+  --red:         #DC2626;   /* red-600 — 5.3:1 on white */
+  --red-dim:     #DC262618;
+  --green:       #059669;   /* emerald-600 — 5.2:1 on white */
+  --green-dim:   #05966918;
 
-  --text-primary:   #E8F4F8;
-  --text-secondary: #7BA8BA;
-  --text-dim:       #5E8FA3;  /* was #3D6478 — now 5.4:1 on navy */
+  --text-primary:   #0F172A;
+  --text-secondary: #475569;
+  --text-dim:       #94A3B8;
 
-  --border:    #0EA5B528;
-  --border-hi: #0EA5B578;
-  --grid-line: #0EA5B510;
+  --border:    #CBD5E1;
+  --border-hi: #94A3B8;
+  --grid-line: #E2E8F0;
 
   --font-display: 'Syne', sans-serif;
   --font-mono:    'IBM Plex Mono', monospace;
@@ -96,8 +96,8 @@ body::before {
   content: '';
   position: fixed; inset: 0;
   background-image:
-    radial-gradient(circle at 15% 50%, #0EA5B509 0%, transparent 55%),
-    radial-gradient(circle at 85% 15%, #E8A02007 0%, transparent 45%),
+    radial-gradient(circle at 15% 50%, #0891A20A 0%, transparent 55%),
+    radial-gradient(circle at 85% 15%, #B4530908 0%, transparent 45%),
     radial-gradient(var(--grid-line) 1px, transparent 1px);
   background-size: 100% 100%, 100% 100%, 28px 28px;
   pointer-events: none; z-index: 0;
@@ -180,12 +180,12 @@ body::before {
   display: flex;
   gap: var(--s3);
   padding: var(--s8) var(--s4) var(--s4);
-  background: linear-gradient(to top, rgba(13,33,55,0.97) 0%, rgba(13,33,55,0.75) 55%, transparent 100%);
+  background: linear-gradient(to top, rgba(244,247,250,0.97) 0%, rgba(244,247,250,0.80) 55%, transparent 100%);
   flex-wrap: wrap;
   align-items: flex-end;
 }
 .map-overlay-card {
-  background: rgba(17,41,68,0.85);
+  background: rgba(255,255,255,0.95);
   border: 1px solid var(--border);
   border-radius: 2px;
   padding: var(--s3) var(--s4);
@@ -435,7 +435,7 @@ a, button, input, [role="button"] {
 
 /* ─── Skeleton ──────────────────────────────────────────────────────────── */
 .skeleton {
-  background: linear-gradient(90deg, var(--navy-light) 25%, var(--navy-mid) 50%, var(--navy-light) 75%);
+  background: linear-gradient(90deg, var(--navy-mid) 25%, var(--navy-light) 50%, var(--navy-mid) 75%);
   background-size: 200% 100%;
   animation: skel-wave 1.5s ease-in-out infinite;
   border-radius: 2px;
@@ -525,20 +525,20 @@ input[type='range']:focus-visible::-webkit-slider-thumb {
   box-shadow: var(--focus-ring);
 }
 
-/* ─── Leaflet dark overrides ────────────────────────────────────────────── */
-.leaflet-container { background: var(--navy) !important; }
+/* ─── Leaflet light overrides ───────────────────────────────────────────── */
+.leaflet-container { background: var(--navy-light) !important; }
 .leaflet-control-zoom a {
-  background: var(--navy-mid) !important;
+  background: var(--navy) !important;
   color: var(--teal) !important;
   border-color: var(--border) !important;
   font-size: 16px !important;
   line-height: 26px !important;
 }
-.leaflet-control-zoom a:hover { background: var(--navy-light) !important; }
+.leaflet-control-zoom a:hover { background: var(--navy-mid) !important; }
 .leaflet-control-attribution { display: none; }
 
 /* Nigeria outline glow — applied to the country-border GeoJSON layer */
-.nigeria-glow-path { filter: drop-shadow(0 0 6px #0EA5B5); }
+.nigeria-glow-path { filter: drop-shadow(0 0 6px #0891A2); }
 
 /* ─── Pulse hotspot markers ─────────────────────────────────────────────── */
 .pulse-icon-wrapper { background: transparent !important; border: none !important; }
@@ -550,16 +550,16 @@ input[type='range']:focus-visible::-webkit-slider-thumb {
   position: absolute; top: 50%; left: 50%;
   transform: translate(-50%, -50%);
   width: 10px; height: 10px;
-  background: #E8453C;
+  background: #DC2626;
   border-radius: 50%;
   z-index: 2;
-  box-shadow: 0 0 8px #E8453C;
+  box-shadow: 0 0 8px #DC2626;
 }
 .pulse-dot-ring {
   position: absolute; top: 50%; left: 50%;
   width: 24px; height: 24px;
   margin-left: -12px; margin-top: -12px;
-  border: 2px solid #E8453C;
+  border: 2px solid #DC2626;
   border-radius: 50%;
   animation: pulse-ring 1.8s ease-out infinite;
 }
@@ -574,18 +574,18 @@ input[type='range']:focus-visible::-webkit-slider-thumb {
 
 /* ─── Map legend (rendered via L.control DomUtil) ───────────────────────── */
 .choro-legend {
-  background: rgba(13, 33, 55, 0.93);
-  border: 1px solid #0EA5B528;
+  background: rgba(255, 255, 255, 0.96);
+  border: 1px solid #CBD5E1;
   padding: 10px 12px;
   border-radius: 2px;
   font-family: 'IBM Plex Mono', monospace;
-  color: #7BA8BA;
+  color: #475569;
   min-width: 200px;
-  box-shadow: 0 2px 12px rgba(0,0,0,0.5);
+  box-shadow: 0 2px 12px rgba(0,0,0,0.12);
 }
 .choro-legend-title {
   display: block;
-  color: #0EA5B5;
+  color: #0891A2;
   font-size: 9px;
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -607,9 +607,9 @@ input[type='range']:focus-visible::-webkit-slider-thumb {
 .choro-legend-pulse {
   width: 10px; height: 10px;
   border-radius: 50%;
-  background: #E8453C;
+  background: #DC2626;
   flex-shrink: 0;
-  box-shadow: 0 0 6px #E8453C;
+  box-shadow: 0 0 6px #DC2626;
 }
 
 /* ─── Recharts overrides ────────────────────────────────────────────────── */

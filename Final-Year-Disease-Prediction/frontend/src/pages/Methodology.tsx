@@ -21,7 +21,6 @@ const PIPELINE = [
 const SOURCES = [
   { name: 'ERA5 Reanalysis',     type: 'Climate',  period: '2010–2025', obs: '220 months',   free: true },
   { name: 'Nigeria Cholera NCDC',type: 'Disease',  period: '2010–2025', obs: '190 months',   free: true },
-  { name: 'Lassa Fever Map',     type: 'Disease',  period: '2020–2025', obs: '70 months',    free: true },
   { name: 'Open-Meteo API',      type: 'Live',     period: 'Real-time', obs: 'No key needed', free: true },
   { name: 'WHO GHO API',         type: 'Disease',  period: 'Historic',  obs: 'REST API',     free: true },
 ];
@@ -29,7 +28,7 @@ const SOURCES = [
 const CustomTooltip = ({ active, payload, label }: { active?: boolean; payload?: { color: string; name: string; value: number }[]; label?: string }) => {
   if (!active || !payload?.length) return null;
   return (
-    <div style={{ background: 'var(--navy-mid)', border: '1px solid var(--border)', padding: '8px 12px', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)' }}>
+    <div style={{ background: 'var(--navy)', border: '1px solid var(--border)', padding: '8px 12px', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', boxShadow: '0 2px 8px rgba(0,0,0,0.1)' }}>
       <div style={{ color: 'var(--text-secondary)', marginBottom: 4 }}>{label}</div>
       {payload.map(p => <div key={p.name} style={{ color: p.color }}>{p.name}: {p.value}</div>)}
     </div>
@@ -166,8 +165,8 @@ export default function Methodology() {
                 <YAxis yAxisId="hum" orientation="right" domain={['auto','auto']} tick={{ fontSize: 10 }} />
                 <Tooltip content={<CustomTooltip />} />
                 <Legend />
-                <Line yAxisId="temp" type="monotone" dataKey="temperature" stroke="#E8A020" dot={false} name="Temp (°C)" strokeWidth={1.5} isAnimationActive={inView} animationDuration={1200} />
-                <Line yAxisId="hum" type="monotone" dataKey="humidity" stroke="#0A7E8C" dot={false} name="Humidity (%)" strokeWidth={1.5} isAnimationActive={inView} animationDuration={1200} />
+                <Line yAxisId="temp" type="monotone" dataKey="temperature" stroke="#B45309" dot={false} name="Temp (°C)" strokeWidth={1.5} isAnimationActive={inView} animationDuration={1200} />
+                <Line yAxisId="hum" type="monotone" dataKey="humidity" stroke="#0891A2" dot={false} name="Humidity (%)" strokeWidth={1.5} isAnimationActive={inView} animationDuration={1200} />
               </LineChart>
             </ResponsiveContainer>
           )}
